@@ -1,7 +1,9 @@
 /* Stronger visual hierarchy for the site navigation. */
+#main-nav { gap: 14px; }
+
 #main-nav > a:not(.button) {
   color: var(--blue);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: .01em;
 }
@@ -21,6 +23,6 @@
 }
 
 @media (max-width: 850px) {
-  #main-nav > a:not(.button) { font-size: 16px; }
+  #main-nav > a:not(.button) { font-size: 18px; }
   #main-nav > a:not(.button)::after { display: none; }
 }
