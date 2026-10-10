@@ -72,6 +72,24 @@ function makeNewsCard(article) {
   card.append(meta, element('h3', article.title), element('p', article.summary), read);
   return card;
 }
+function renderCompetitionInfo() {
+  $('#rounds-list').replaceChildren(...(site.rounds || []).map((round) => {
+    const item = element('div', undefined, 'round-item');
+    item.append(element('h3', round.name), element('p', round.summary, 'round-summary'), element('p', round.description));
+    return item;
+  }));
+  $('#schedule-list').replaceChildren(...(site.schedule || []).map((entry) => {
+    const row = element('div');
+    row.append(element('dt', entry.time), element('dd', entry.label));
+    return row;
+  }));
+  $('#awards-list').replaceChildren(...(site.awards || []).map((award) => {
+    const item = element('div', undefined, 'award-item');
+    item.append(element('h3', award.title), element('p', award.description));
+    return item;
+  }));
+  $('#team-scoring').replaceChildren(...(site.teamScoring || []).map((text) => element('li', text)));
+}
 function renderNews() {
   $('#home-news').replaceChildren(...site.news.slice(0, 2).map(makeNewsCard));
   $('#all-news').replaceChildren(...site.news.map(makeNewsCard));
@@ -218,6 +236,7 @@ function route() {
 }
 
 configureContent();
+renderCompetitionInfo();
 renderNews();
 renderPastTournaments();
 $('.skip-link').addEventListener('click', (event) => {

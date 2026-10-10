@@ -16,17 +16,17 @@ Open the printed `http://127.0.0.1:4173` URL. Stop it with Ctrl+C.
 
 ## Editing site content
 
-Everything families read (event details, the registration form link, the donation link, news, FAQs, past tournaments) lives in `dist/content.js`. Edit that file and redeploy. News articles support a title, category, optional date (`YYYY-MM-DD`), summary, and paragraphs, and are shown in file order, so put the latest first.
+Everything families read (event details, the schedule, round rules, awards, the registration form link, the donation link, news, FAQs, past tournaments) lives in `dist/content.js`. Edit that file and redeploy. News articles support a title, category, optional date (`YYYY-MM-DD`), summary, and paragraphs, and are shown in file order, so put the latest first.
 
 Key settings:
 
 ```js
 registrationOpen: true,
-registrationFormUrl: "https://forms.gle/...",   // Google Form share link
-deadline: "October 28, 2026",
-fee: "$25 per person · $100 for a group of 4",
+registrationFormUrl: "https://forms.gle/QsQDTrrTADWsS3K49",
+deadline: "October 29, 2026 at 11:59 PM",
+fee: "$25 per person · $100 for a team of 4",
 donationUrl: "https://www.givecampus.com/...",
-contactEmail: "chrisgaorb@gmail.com",
+contactEmail: "fsmt@fultonscienceacademy.org",
 ```
 
 ### Past tournaments
