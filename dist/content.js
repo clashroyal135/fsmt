@@ -5,8 +5,8 @@ export const site = {
   organizer: "Fulton Science Academy Mu Alpha Theta",
   tagline: "A little curiosity. A world of possibility.",
   description: "Join the Fulton Science Math Tournament for students in grades 3, 4, and 5, featuring Individual, Team, and Relay rounds. Organized by Fulton Science Academy Mu Alpha Theta.",
-  registrationOpen: false,
-  registrationEmailsEnabled: false,
+  registrationOpen: true,
+  registrationEmailsEnabled: true,
   date: "October 31, 2026",
   dateNotice: "Rescheduled from October 10 to October 31, 2026 due to Hurricane Isaias.",
   format: "Individual, Team, and Relay",
@@ -44,7 +44,7 @@ export const site = {
         "The Fulton Science Math Tournament will take place on October 31, 2026, rescheduled from October 10 due to Hurricane Isaias.",
         "Organized by Fulton Science Academy Mu Alpha Theta, the tournament features Individual, Team, and Relay rounds for students in grades 3–5.",
         "Join us at Fulton Science Academy, 3035 Fanfare Way, Alpharetta, GA 30009. The cost is $25 per person or $100 for a group of 4.",
-        "The schedule and registration deadline will be announced here. Registration details are coming soon."
+        "Registration is open through October 28, 2026. The schedule will be announced here."
       ]
     },
     {
@@ -69,7 +69,7 @@ export const site = {
     { question: "How much does it cost?", answer: "The cost is $25 per person or $100 for a group of 4. Payment takes place through the school's donation website after registration." },
     { question: "Can I register a group of four students?", answer: "Yes. Choose 4 students at the top of the registration form, then enter each student's name, grade, and school. These four students automatically form a competition team. The group shares one contact and one registration reference, and each student appears separately on the public participant list. The contact must have parent or guardian permission for every student." },
     { question: "What if I register fewer than four students?", answer: "You can register 1, 2, or 3 students. The organizer will help form a competition team, so you do not need a complete team before registering." },
-    { question: "Will the registration contact and organizer receive emails?", answer: "Automatic email delivery is being connected before registration opens. Once enabled, the shared registration contact receives one confirmation listing all registered students, the reference, and school donation instructions. The organizer receives a separate notification. Messages are triggered after the submission passes Netlify's spam checks. If a confirmation does not arrive, check your spam folder or contact chrisgaorb@gmail.com with your registration reference." },
+    { question: "Will the registration contact and organizer receive emails?", answer: "The shared registration contact receives one confirmation listing all registered students, the reference, and school donation instructions. The organizer receives a separate notification. Messages are triggered after the submission passes Netlify's spam checks. If a confirmation does not arrive, check your spam folder or contact chrisgaorb@gmail.com with your registration reference." },
     { question: "Where do I pay the registration fee?", answer: "After submitting the registration, follow the button to the school's donation website to pay $25 per person or $100 for a group of 4. The donation link will be published before registration opens. Keep the payment receipt from the school." },
     { question: "Does submitting the form mean payment is confirmed?", answer: "Submitting the form records the registration. Payment is handled by the school and confirmed separately by the organizer. The public participant list shows submitted registrations, not payment status." },
     { question: "What information appears on the participant page?", answer: "Only the student's first name, last initial, and grade appear publicly. Full student names, school details, and parent or guardian contact information stay in the organizer's private registration dashboard." },

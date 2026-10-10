@@ -78,7 +78,7 @@ test('invalid contact addresses, references, consent, groups, and unrelated form
 test('disabled or unrelated events do not make any email API requests', async () => {
   let requests = 0;
   const fetcher = async () => { requests += 1; return accepted(); };
-  assert.deepEqual(await createNotificationHandler({ site, fetcher })({ data: data() }), { skipped: 'disabled' });
+  assert.deepEqual(await createNotificationHandler({ site: { ...site, registrationEmailsEnabled: false }, fetcher })({ data: data() }), { skipped: 'disabled' });
   assert.deepEqual(await handler({ fetcher })({ data: data({ 'registration-purpose': 'unrelated' }) }), { skipped: 'unrelated-or-invalid-registration' });
   assert.equal(requests, 0);
 });
