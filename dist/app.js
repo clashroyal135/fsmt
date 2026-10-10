@@ -3,7 +3,7 @@ import { site } from './content.js';
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const localPreview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
-const routes = ['home', 'competition', 'news', 'past-tournaments', 'faqs', 'register'];
+const routes = ['home', 'competition', 'news', 'past-tournaments', 'faqs', 'about', 'register'];
 let currentRoute = 'home';
 
 function element(tag, text, className) {
@@ -23,8 +23,8 @@ function safeUrl(value, hosts) {
 // Only Google Forms links are accepted for registration.
 const googleFormHosts = ['docs.google.com', 'forms.gle'];
 function configureContent() {
-  document.title = `${site.shortName} · ${site.name}`;
-  $('.brand[aria-label]').setAttribute('aria-label', `${site.shortName} home`);
+  document.title = `${site.organizer} · ${site.name}`;
+  $('.header-brand').setAttribute('aria-label', `${site.organizer} home`);
   fillAll('[data-site-name]', site.name);
   fillAll('[data-short-name]', site.shortName);
   fillAll('[data-event-organizer]', site.organizer);
@@ -227,8 +227,8 @@ function route() {
   $$('[data-page]').forEach((link) => { if (link.dataset.page === requested) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
   $('#main-nav').classList.remove('open');
   $('#menu-toggle').setAttribute('aria-expanded', 'false');
-  const title = { home: site.name, competition: 'The competition', news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', register: 'Student registration' };
-  document.title = `${site.shortName} · ${title[requested]}`;
+  const title = { home: site.name, competition: 'The competition', news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', about: 'About Us', register: 'Student registration' };
+  document.title = `${site.organizer} · ${title[requested]}`;
   if (changed) {
     window.scrollTo({ top: 0, behavior: 'instant' });
     const heading = $(`[data-route="${requested}"] h1`);
