@@ -1,7 +1,6 @@
 [build]
   publish = "dist"
   command = "node scripts/check.mjs"
-  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "22"
@@ -19,8 +18,3 @@
   for = "/content.js"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/register/complete.html"
-  [headers.values]
-    X-Robots-Tag = "noindex"
