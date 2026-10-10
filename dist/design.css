@@ -3,16 +3,8 @@ html { scroll-behavior: smooth; }
 body { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; background: #fff; font-family: Roboto, Arial, sans-serif; }
 button, input, select, textarea { font-family: Roboto, Arial, sans-serif; }
 h1, h2, h3, .brand, .header-brand-title, .archive-preview-year, .archive-year-number, .count-card > strong, .reference-box > strong, .notice-icon { font-family: Roboto, Arial, sans-serif; }
-main { flex: 1 0 auto; position: relative; isolation: isolate; }
+main { flex: 1 0 auto; }
 .page[hidden] { display: none; }
-
-/* Quiet ribbons in the open desktop margins. */
-@media (min-width: 1200px) {
-  main::before, main::after { content: ""; position: absolute; z-index: 0; top: 0; bottom: 0; width: min(180px, calc((100vw - 1080px) / 2 - 12px)); background: url("assets/side-ribbon.svg") center top / 100% 560px repeat-y; pointer-events: none; }
-  main::before { left: 0; }
-  main::after { right: 0; transform: scaleX(-1); }
-  main > .page { position: relative; z-index: 1; }
-}
 
 .site-header { background: #123b68; border: 0; }
 .header-inner.wrap { width: 100%; max-width: none; min-height: 88px; margin: 0; padding: 10px clamp(18px, 3vw, 48px); gap: 28px; }
