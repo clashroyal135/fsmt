@@ -3,7 +3,7 @@ import { site } from './content.js';
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const localPreview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
-const routes = ['home', 'competition', 'news', 'past-tournaments', 'participants', 'faqs', 'register'];
+const routes = ['home', 'competition', 'news', 'past-tournaments', 'faqs', 'register'];
 let currentRoute = 'home';
 let participants = [];
 let rosterAvailable = false;
@@ -224,7 +224,7 @@ function route() {
   $$('[data-page]').forEach((link) => { if (link.dataset.page === requested) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
   $('#main-nav').classList.remove('open');
   $('#menu-toggle').setAttribute('aria-expanded', 'false');
-  const title = { home: 'Grades 3–5', competition: 'The competition', news: 'News & updates', 'past-tournaments': 'Past tournaments', participants: 'Participants', faqs: 'FAQs', register: 'Student registration' };
+  const title = { home: 'Grades 3–5', competition: 'The competition', news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', register: 'Student registration' };
   document.title = `${site.name} · ${title[requested]}`;
   if (changed) {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -232,7 +232,6 @@ function route() {
     heading.setAttribute('tabindex', '-1');
     heading.focus({ preventScroll: true });
   }
-  if (requested === 'participants') loadRegistrations();
 }
 
 function renderRoster() {
@@ -327,9 +326,8 @@ function reviewRegistration() {
   if (!$('#registration-reference').value) $('#registration-reference').value = generateReference();
   const students = registrationStudents();
   const rows = students.map((student, index) => {
-    const initial = [...[...student.lastName.normalize('NFC')][0].toLocaleUpperCase()][0];
     const row = element('div', undefined, 'review-student');
-    row.append(element('dt', `Student ${index + 1} · ${student.firstName} ${student.lastName}`), element('dd', `Grade ${student.grade} · ${student.school}`), element('dd', `Public listing: ${student.firstName} ${initial}. · Grade ${student.grade}`));
+    row.append(element('dt', `Student ${index + 1} · ${student.firstName} ${student.lastName}`), element('dd', `Grade ${student.grade} · ${student.school}`));
     return row;
   });
   const entries = [
@@ -367,7 +365,7 @@ function showConfirmation(reference) {
   const students = registrationStudents();
   const groupSummary = students.length === 1 ? `${students[0].firstName}'s grade ${students[0].grade} registration` : `Your group registration for ${students.length} students`;
   const emailNote = site.registrationEmailsEnabled ? ` A confirmation email is requested for ${value('email')} after spam verification, with a separate notification to the school organizer. Check your inbox and spam folder; contact the organizer if it does not arrive.` : ' Automatic confirmation emails are not enabled yet. Keep your registration reference.';
-  $('#confirmation-description').textContent = localPreview ? `This is the confirmation for ${students.length} ${students.length === 1 ? 'student' : 'students'}. No registration has been submitted or saved, and no emails have been sent. One reference covers everyone in this registration.` : `${groupSummary} has been submitted. One reference covers everyone in this registration. Each student appears separately on the public list after verification.${emailNote}`;
+  $('#confirmation-description').textContent = localPreview ? `This is the confirmation for ${students.length} ${students.length === 1 ? 'student' : 'students'}. No registration has been submitted or saved, and no emails have been sent. One reference covers everyone in this registration.` : `${groupSummary} has been submitted. One reference covers everyone in this registration.${emailNote}`;
   $('#registration-confirmation').focus();
   $('#registration-confirmation').scrollIntoView({ block: 'start', behavior: 'smooth' });
 }
@@ -428,13 +426,6 @@ $('#menu-toggle').addEventListener('click', () => {
 $('#close-article').addEventListener('click', () => $('#article-dialog').close());
 $('#close-info').addEventListener('click', () => $('#info-dialog').close());
 $('#info-dialog').addEventListener('close', () => { if (['privacy', 'organizers'].includes(location.hash.slice(1))) location.hash = currentRoute; });
-$('#refresh-roster').addEventListener('click', loadRegistrations);
-$$('[data-grade]').forEach((button) => button.addEventListener('click', () => {
-  gradeFilter = button.dataset.grade;
-  $$('[data-grade]').forEach((other) => { const selected = other === button; other.classList.toggle('selected', selected); other.setAttribute('aria-pressed', String(selected)); });
-  renderRoster();
-}));
-$('#roster-search').addEventListener('input', renderRoster);
 $('#review-registration').addEventListener('click', reviewRegistration);
 $('#edit-registration').addEventListener('click', editRegistration);
 $('#registration-form').addEventListener('submit', submitRegistration);
@@ -444,6 +435,4 @@ $('#copy-reference').addEventListener('click', async () => {
   catch { $('#copy-reference').textContent = 'Select the reference above to copy it.'; }
 });
 window.addEventListener('hashchange', route);
-document.addEventListener('visibilitychange', () => { if (!document.hidden && currentRoute === 'participants') loadRegistrations(); });
-setInterval(() => { if (!document.hidden && currentRoute === 'participants') loadRegistrations(); }, 60000);
 route();
