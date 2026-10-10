@@ -9,10 +9,10 @@
 
 #main-nav > a:not(.button) {
   color: #fff;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: .01em;
-  padding: 5px 9px;
+  padding: 6px 12px;
   border-radius: 3px;
 }
 
@@ -39,6 +39,6 @@
 
 @media (max-width: 850px) {
   #main-nav { background: linear-gradient(110deg, #0f4c81, #176f9e 55%, #147a78); }
-  #main-nav > a:not(.button) { font-size: 18px; }
+  #main-nav > a:not(.button) { font-size: 19px; }
   #main-nav > a:not(.button)::after { display: none; }
 }
