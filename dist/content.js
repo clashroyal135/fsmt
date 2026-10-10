@@ -3,7 +3,7 @@
 export const site = {
   name: "Fulton Science Math Tournament",
   organizer: "Fulton Science Academy Mu Alpha Theta",
-  tagline: "A little curiosity. A world of possibility.",
+  tagline: "Fulton Science Math Tournament for grades 3–5",
   description: "Join the Fulton Science Math Tournament for students in grades 3, 4, and 5, featuring Individual, Team, and Relay rounds. Organized by Fulton Science Academy Mu Alpha Theta.",
   registrationOpen: true,
   // Paste the Google Form share link here (docs.google.com/forms/... or forms.gle/...).
@@ -54,7 +54,7 @@ export const site = {
       id: "competition-details",
       category: "Competition update",
       date: null,
-      title: "New tournament date: October 31, 2026.",
+      title: "New tournament date: October 31, 2026",
       summary: "The tournament has been postponed three weeks to October 31 due to Hurricane Isaias and other conflicting activities. Registration is open through October 29.",
       paragraphs: [
         "The Fulton Science Math Tournament has been postponed three weeks to October 31, 2026 due to Hurricane Isaias and other conflicting activities. We apologize for this change.",
@@ -65,9 +65,9 @@ export const site = {
     },
     {
       id: "how-to-register",
-      category: "For families",
+      category: "Registration",
       date: null,
-      title: "Register as an individual or a team of four.",
+      title: "Register as an individual or a team of four",
       summary: "One form registers one student or a whole team of four. Only one form should be submitted per team.",
       paragraphs: [
         "Use the registration form linked on the Registration page. Choose Individual to register one student, or Team to register all four team members on a single form.",

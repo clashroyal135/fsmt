@@ -38,7 +38,7 @@ function configureContent() {
   fillAll('[data-donation-instructions]', site.donationInstructions);
   fillAll('[data-registration-status]', site.registrationOpen ? 'Registration is open' : 'Registration details coming soon');
   $('#hero-description').textContent = site.description;
-  fillAll('[data-contact-note]', site.contactEmail ? 'Send a note to the competition organizer.' : site.contactNote);
+  fillAll('[data-contact-note]', site.contactEmail ? 'Email the tournament organizers with any questions.' : site.contactNote);
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.contactEmail)) {
     $$('[data-contact-link]').forEach((link) => { link.href = `mailto:${site.contactEmail}`; link.textContent = site.contactEmail; link.hidden = false; });
   }
@@ -142,7 +142,7 @@ function renderPastTournaments() {
       }
       photos.append(gallery);
     } else {
-      photos.append(archiveEmpty('Photos coming soon', 'A place for tournament-day moments, teamwork, and celebrations.', '▧'));
+      photos.append(archiveEmpty('Photos coming soon', 'Photos from this tournament will be posted here.', '▧'));
     }
 
     const details = element('div', undefined, 'archive-details-grid');
@@ -174,10 +174,10 @@ function renderPastTournaments() {
       scroll.append(table);
       results.append(scroll);
     } else {
-      results.append(archiveEmpty('Results coming soon', 'Published standings for students and teams will appear here.', '≡'));
+      results.append(archiveEmpty('Results coming soon', 'Student and team results will be posted here.', '≡'));
     }
     const awards = element('section', undefined, 'archive-section');
-    awards.append(element('h3', 'Awards & recognition'));
+    awards.append(element('h3', 'Awards'));
     if (tournament.awards.length) {
       const list = element('ul', undefined, 'archive-awards');
       for (const award of tournament.awards) {
@@ -188,7 +188,7 @@ function renderPastTournaments() {
       }
       awards.append(list);
     } else {
-      awards.append(archiveEmpty('Awards coming soon', 'Celebrating the achievements of our tournament participants.', '✧'));
+      awards.append(archiveEmpty('Awards coming soon', 'Award winners will be posted here.', '✧'));
     }
     details.append(results, awards);
     article.append(header, photos, details);
@@ -199,7 +199,7 @@ function renderPastTournaments() {
 function openInformation(kind) {
   const privacy = kind === 'privacy';
   $('#info-eyebrow').textContent = privacy ? 'YOUR INFORMATION' : 'FOR THE ORGANIZING TEAM';
-  $('#info-title').textContent = privacy ? 'A clear view of privacy.' : 'Manage registrations.';
+  $('#info-title').textContent = privacy ? 'Privacy' : 'Managing registrations';
   const paragraphs = privacy ? [
     'Registration takes place on a Google Form run by Fulton Science Academy Mu Alpha Theta. It collects each student’s full name, grade, and school, plus one parent, guardian, or authorized group contact’s name and email address, a parent or guardian permission confirmation, and an optional photo and media choice. You can register up to four students in one form. The organizer uses these details to run the competition and contact families.',
     'Responses are stored in the organizer’s Google account and are visible only to the organizing team. Google processes the responses and emails the contact a copy of their answers. Student names and contact details are not published on this website.',
