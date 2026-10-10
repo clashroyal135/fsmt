@@ -36,9 +36,9 @@ function configureContent() {
   fillAll('[data-event-deadline]', site.deadline);
   fillAll('[data-event-fee]', site.fee);
   fillAll('[data-donation-instructions]', site.donationInstructions);
-  fillAll('[data-registration-status]', site.registrationOpen ? 'Registration is open' : 'Registration details coming soon');
+  fillAll('[data-registration-status]', site.registrationOpen ? `Registration is open until ${site.deadline}` : 'Registration is closed');
   $('#hero-description').textContent = site.description;
-  fillAll('[data-contact-note]', site.contactEmail ? 'Email the tournament organizers with any questions.' : site.contactNote);
+  fillAll('[data-contact-note]', site.contactEmail ? 'For questions or corrections, email:' : site.contactNote);
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.contactEmail)) {
     $$('[data-contact-link]').forEach((link) => { link.href = `mailto:${site.contactEmail}`; link.textContent = site.contactEmail; link.hidden = false; });
   }
@@ -104,7 +104,8 @@ function archiveEmpty(title, description, symbol) {
   const placeholder = element('div', undefined, 'archive-empty');
   const icon = element('span', symbol, 'archive-empty-symbol');
   icon.setAttribute('aria-hidden', 'true');
-  placeholder.append(icon, element('h4', title), element('p', description));
+  placeholder.append(icon, element('h4', title));
+  if (description) placeholder.append(element('p', description));
   return placeholder;
 }
 
@@ -114,13 +115,13 @@ function renderPastTournaments() {
   $('#past-tournaments-list').replaceChildren(...tournaments.map((tournament) => {
     const article = element('article', undefined, 'tournament-year');
     const header = element('header', undefined, 'archive-year-header');
-    const year = element('span', String(tournament.year), 'archive-year-number');
+    const year = element('h2', String(tournament.year), 'archive-year-number');
     const introduction = element('div');
-    introduction.append(element('div', 'FROM THE ARCHIVE', 'eyebrow'), element('h2', tournament.title), element('p', tournament.summary));
+    introduction.append(element('p', tournament.summary));
     header.append(year, introduction);
 
     const photos = element('section', undefined, 'archive-section');
-    photos.append(element('h3', 'Photo gallery'));
+    photos.append(element('h3', 'Photos'));
     if (tournament.photos.length) {
       const gallery = element('div', undefined, 'archive-gallery');
       for (const photo of tournament.photos) {
@@ -142,12 +143,12 @@ function renderPastTournaments() {
       }
       photos.append(gallery);
     } else {
-      photos.append(archiveEmpty('Photos coming soon', 'Photos from this tournament will be posted here.', '▧'));
+      photos.append(archiveEmpty('Coming soon', '', '▧'));
     }
 
     const details = element('div', undefined, 'archive-details-grid');
     const results = element('section', undefined, 'archive-section');
-    results.append(element('h3', 'Tournament results'));
+    results.append(element('h3', 'Results'));
     if (tournament.results.length) {
       const scroll = element('div', undefined, 'table-scroll archive-results');
       scroll.tabIndex = 0;
@@ -174,7 +175,7 @@ function renderPastTournaments() {
       scroll.append(table);
       results.append(scroll);
     } else {
-      results.append(archiveEmpty('Results coming soon', 'Student and team results will be posted here.', '≡'));
+      results.append(archiveEmpty('Coming soon', '', '≡'));
     }
     const awards = element('section', undefined, 'archive-section');
     awards.append(element('h3', 'Awards'));
@@ -188,7 +189,7 @@ function renderPastTournaments() {
       }
       awards.append(list);
     } else {
-      awards.append(archiveEmpty('Awards coming soon', 'Award winners will be posted here.', '✧'));
+      awards.append(archiveEmpty('Coming soon', '', '✧'));
     }
     details.append(results, awards);
     article.append(header, photos, details);

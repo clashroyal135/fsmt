@@ -11,3 +11,4 @@
 .round-summary{font-weight:700;color:var(--blue)}
 .scoring-list{margin:6px 0 0;padding-left:20px}
 @media (max-width:850px){.competition-info,.rounds-list{grid-template-columns:1fr}}
+.home-page .details-strip{margin-bottom:56px}
