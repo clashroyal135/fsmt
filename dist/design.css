@@ -55,12 +55,13 @@ main { flex: 1 0 auto; }
 .archive-preview-copy p { font-size: 18px; }
 
 /* The footer is part of the page flow and reaches the viewport bottom on short routes. */
-.site-footer { display: block; width: 100%; margin-top: auto; padding: 42px 0; border: 0; background: #123b68; color: #fff; }
-.footer-inner { display: flex; justify-content: space-between; align-items: start; gap: 40px; }
-.footer-title { color: #fff; font-size: 20px; font-weight: 700; line-height: 1.2; text-decoration: none; }
-.site-footer p { color: #d8e5ef; font-size: 14px; margin: 8px 0; }
-.footer-email { color: #fff; font-size: 14px; text-underline-offset: 3px; }
-.footer-links { justify-content: flex-end; max-width: 470px; gap: 12px 22px; }
+.site-footer { display: block; width: 100%; margin-top: auto; padding: 16px 0; border: 0; background: #123b68; color: #fff; }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.footer-identity { display: flex; flex-direction: column; gap: 1px; }
+.footer-title { color: #fff; font-size: 16px; font-weight: 700; line-height: 1.2; text-decoration: none; }
+.footer-subtitle { color: #d8e5ef; font-size: 14px; line-height: 1.2; }
+.footer-email { color: #fff; font-size: 14px; line-height: 1.2; text-underline-offset: 3px; }
+.footer-links { justify-content: flex-end; max-width: 470px; gap: 6px 18px; }
 .footer-links a { color: #fff; font-size: 14px; }
 .footer-links a:hover { color: #fff; }
 
@@ -74,7 +75,7 @@ main { flex: 1 0 auto; }
   .header-inner nav { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 3; padding: 14px 22px; border: 0; background: #123b68; box-shadow: 0 8px 20px #17243424; }
   .header-inner nav.open { display: flex; flex-direction: column; align-items: stretch; gap: 3px; }
   #main-nav > a:not(.button) { font-size: 17px; }
-  .footer-inner { flex-direction: column; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
   .footer-links { justify-content: flex-start; }
 }
 @media (max-width: 600px) {
@@ -91,5 +92,5 @@ main { flex: 1 0 auto; }
   .home-page .details-strip { grid-template-columns: 1fr; }
   .home-page .details-strip > div { padding-inline: 0; }
   .archive-preview { grid-template-columns: 1fr; gap: 18px; }
-  .site-footer { padding: 36px 0; }
+  .site-footer { padding: 16px 0; }
 }
