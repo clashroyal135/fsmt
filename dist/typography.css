@@ -1,0 +1,52 @@
+/* Larger reading type for families viewing tournament information. */
+body { font-size: 18px; line-height: 1.7; }
+
+.hero-description,
+.intro-copy,
+.page-heading p,
+.archive-preview p,
+.community-banner p,
+.news-card p,
+.team-formation,
+.muted,
+.steps p,
+.faq-list p,
+.contact-panel p,
+.registration-aside > p,
+.aside-note,
+.payment-note,
+.article-dialog p,
+.archive-year-header p,
+.archive-empty p,
+.archive-awards p { font-size: 17px; }
+
+.event-notice,
+.details-strip strong,
+.event-details > div,
+.review-details > div,
+table,
+.roster-status,
+.roster-note,
+.registration-info > div { font-size: 16px; }
+
+@media (max-width: 600px) {
+  body { font-size: 17px; }
+  .hero-description,
+  .intro-copy,
+  .page-heading p,
+  .archive-preview p,
+  .community-banner p,
+  .news-card p,
+  .team-formation,
+  .muted,
+  .steps p,
+  .faq-list p,
+  .contact-panel p,
+  .registration-aside > p,
+  .aside-note,
+  .payment-note,
+  .article-dialog p,
+  .archive-year-header p,
+  .archive-empty p,
+  .archive-awards p { font-size: 16px; }
+}
