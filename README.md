@@ -84,7 +84,7 @@ The check script prevents opening registration with missing event/payment/contac
 
 ## Automatic registration emails
 
-The school organizer is **Fulton Science Academy Mu Alpha Theta**, and the organizer notification address is **fsmt@fultonscienceacademy.org**. The proposed sender is `Fulton Science Academy Mu Alpha Theta <fsmt@fultonscienceacademy.org>`, subject to school domain verification. Parent replies go to the organizer; organizer replies go to the registration contact.
+The school organizer is **Fulton Science Academy Mu Alpha Theta**. During testing, the public contact and organizer notification address is **chrisgaorb@gmail.com**. The proposed sender remains `Fulton Science Academy Mu Alpha Theta <fsmt@fultonscienceacademy.org>`, subject to school domain verification. Parent replies go to the temporary organizer address; organizer replies go to the registration contact.
 
 `netlify/functions/registration-notifications.mjs` subscribes to Netlify's `formSubmitted` platform event. Netlify verifies event signatures, and the function exposes no public HTTP mail endpoint. Only the marked math registration form, a complete group of 1–4 students, a valid reference/email, and parent/guardian permission acknowledgment are eligible. Emails are triggered after Netlify verifies the submission through its spam checks. A spam-held registration does not trigger mail until verified.
 
@@ -97,9 +97,9 @@ No CC list is used. Messages for other groups are never included. Resend process
 
 To activate delivery:
 
-1. Have the school authorize and verify the sending domain in Resend using its required DNS records. If the school prefers a dedicated subdomain, use a verified sender address on that subdomain and keep replies directed to `fsmt@fultonscienceacademy.org`.
+1. Have the school authorize and verify the sending domain in Resend using its required DNS records. If the school prefers a dedicated subdomain, use a verified sender address on that subdomain. During testing, replies are directed to `chrisgaorb@gmail.com`.
 2. Create a **sending-only Resend API key**, restricted to the verified sender domain where supported. Store it in Netlify settings; do not paste it into chat or public source.
-3. Set `RESEND_API_KEY`. Optionally set `REGISTRATION_FROM_EMAIL` to the verified bare sender address and `REGISTRATION_ORGANIZER_EMAIL` to override the organizer recipient. Both default to the configured public organizer contact address.
+3. Set `RESEND_API_KEY`. Optionally set `REGISTRATION_FROM_EMAIL` to the verified bare sender address and `REGISTRATION_ORGANIZER_EMAIL` to override the organizer recipient. The sender defaults to `senderEmail`; the organizer recipient defaults to the public `contactEmail`.
 4. Set `registrationEmailsEnabled: true` in `dist/content.js`, then redeploy. Verify both messages with an authorized test before opening registration to families.
 
 Sending failures are independent: a parent error does not prevent the organizer request. The function retries temporary provider/network failures up to three attempts and throws if either recipient request still fails. Netlify background invocation retries can then retry the event. All attempts reuse separate recipient-specific Resend idempotency keys, which suppress duplicate sends for **24 hours**. This is not a permanent exactly-once guarantee; a manual replay after that window can send another message.

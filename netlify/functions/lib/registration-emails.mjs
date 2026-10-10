@@ -20,7 +20,7 @@ export function emailRegistration(data) {
   return { students, email, contactName, reference, mediaConsent: data['media-consent'] === 'yes' };
 }
 
-export function registrationEmails(registration, site, { organizerEmail = site.contactEmail, fromEmail = site.contactEmail } = {}) {
+export function registrationEmails(registration, site, { organizerEmail = site.contactEmail, fromEmail = site.senderEmail || site.contactEmail } = {}) {
   if (!validEmail(organizerEmail) || !validEmail(fromEmail)) throw new Error('Registration email addresses are not configured correctly.');
   const senderName = textValue(site.organizer).replace(/[<>"\r\n]/g, '');
   const from = `${senderName} <${fromEmail}>`;
@@ -68,7 +68,7 @@ export function createNotificationHandler({ site, readEnvironment = () => proces
     if (!registration) return { skipped: 'unrelated-or-invalid-registration' };
     const env = readEnvironment();
     if (!env.RESEND_API_KEY) throw new Error('Registration email service is not configured.');
-    const emails = registrationEmails(registration, site, { organizerEmail: env.REGISTRATION_ORGANIZER_EMAIL || site.contactEmail, fromEmail: env.REGISTRATION_FROM_EMAIL || site.contactEmail });
+    const emails = registrationEmails(registration, site, { organizerEmail: env.REGISTRATION_ORGANIZER_EMAIL || site.contactEmail, fromEmail: env.REGISTRATION_FROM_EMAIL || site.senderEmail || site.contactEmail });
     // Separate messages protect recipient privacy and isolate delivery failures.
     const outcomes = await Promise.allSettled(emails.map(({ role, message }) => sendRegistrationEmail({ message, role, reference: registration.reference, apiKey: env.RESEND_API_KEY, fetcher, pause })));
     const failedRoles = outcomes.flatMap((result, index) => result.status === 'rejected' ? [emails[index].role] : []);
