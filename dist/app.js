@@ -227,7 +227,7 @@ function route() {
   $$('[data-page]').forEach((link) => { if (link.dataset.page === requested) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
   $('#main-nav').classList.remove('open');
   $('#menu-toggle').setAttribute('aria-expanded', 'false');
-  const title = { home: site.name, competition: 'The competition', news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', about: 'About Us', register: 'Student registration' };
+  const title = { home: site.name, competition: site.shortName, news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', about: 'About Us', register: 'Student registration' };
   document.title = `${site.organizer} · ${title[requested]}`;
   if (changed) {
     window.scrollTo({ top: 0, behavior: 'instant' });
