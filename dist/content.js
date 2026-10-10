@@ -2,14 +2,15 @@
 // These are public settings. Never add credentials or registration records here.
 export const site = {
   name: "Fulton Science Math Tournament",
+  shortName: "FSMT 2026",
   organizer: "Fulton Science Academy Mu Alpha Theta",
   tagline: "Fulton Science Math Tournament for grades 3–5",
-  description: "A math tournament for students in grades 3, 4, and 5, with Individual, Team, and Relay rounds.",
+  description: "A math tournament for students in grades 3, 4, and 5, with Individual, Team, and Relay rounds. Organized by Fulton Science Academy Mu Alpha Theta.",
   registrationOpen: true,
   // Paste the Google Form share link here (docs.google.com/forms/... or forms.gle/...).
   registrationFormUrl: "https://forms.gle/QsQDTrrTADWsS3K49",
   date: "October 31, 2026",
-  dateNotice: "The tournament has been postponed three weeks to October 31, 2026 due to Hurricane Isaias and other conflicting activities. Families who already registered and received a confirmation email have been sent an additional email with more information. We apologize for the change.",
+  dateNotice: "FSMT 2026 has been postponed three weeks to October 31, 2026 due to Hurricane Isaias and other conflicting activities. Families who already registered and received a confirmation email have been sent an additional email with more information. We apologize for the change.",
   format: "Individual, Team, and Relay",
   teamFormation: "Register as an individual or as a team of four. A team registers all four members on one form. Students who register individually will be placed on a team by the organizer.",
   time: "Check-in opens 8:30 AM · Competition begins 9:00 AM",
@@ -54,10 +55,10 @@ export const site = {
       id: "competition-details",
       category: "Competition update",
       date: null,
-      title: "New tournament date: October 31, 2026",
+      title: "FSMT 2026 moves to October 31",
       summary: "Registration is open until October 29 at 11:59 PM.",
       paragraphs: [
-        "The Fulton Science Math Tournament has been postponed three weeks to October 31, 2026 due to Hurricane Isaias and other conflicting activities. We apologize for this change.",
+        "FSMT 2026 has been postponed three weeks to October 31, 2026 due to Hurricane Isaias and other conflicting activities. We apologize for this change.",
         "If you already submitted the registration form and received a confirmation email, we have sent you an additional email with more information.",
         "The tournament takes place in the Fulton Science Academy Cafeteria, 3035 Fanfare Way, Alpharetta, GA 30009. Check-in opens at 8:30 AM and the competition begins at 9:00 AM, with the award ceremony at about 12:00 PM.",
         "Registration is open until October 29 at 11:59 PM. The cost is $25 per person or $100 for a team of 4. More details will be sent by email closer to the competition date."
@@ -67,7 +68,7 @@ export const site = {
       id: "how-to-register",
       category: "Registration",
       date: null,
-      title: "Register as an individual or a team of four",
+      title: "Registering for FSMT 2026",
       summary: "One form registers one student or a whole team of four. Submit only one form per team.",
       paragraphs: [
         "Use the registration form linked on the Registration page. Choose Individual to register one student, or Team to register all four team members on one form. Submit only one form per team. Students who register individually will be placed on a team by the organizer.",
@@ -76,8 +77,8 @@ export const site = {
     }
   ],
   faqs: [
-    { question: "Who can participate?", answer: "The competition is for students currently in grades 3, 4, or 5." },
-    { question: "When and where is the competition?", answer: "The Fulton Science Math Tournament takes place on October 31, 2026 in the Fulton Science Academy Cafeteria, 3035 Fanfare Way, Alpharetta, GA 30009. It was postponed three weeks due to Hurricane Isaias and other conflicting activities." },
+    { question: "Who can participate?", answer: "FSMT 2026 is for students currently in grades 3, 4, or 5." },
+    { question: "When and where is the competition?", answer: "FSMT 2026 takes place on October 31, 2026 in the Fulton Science Academy Cafeteria, 3035 Fanfare Way, Alpharetta, GA 30009. It was postponed three weeks due to Hurricane Isaias and other conflicting activities." },
     { question: "What is the schedule?", answer: "Check-in opens at 8:30 AM and the competition begins at 9:00 AM. The competition ends at about 11:30 AM with a break for students, and the award ceremony starts at about 12:00 PM. More details will be sent by email closer to the competition date." },
     { question: "What is the competition format?", answer: "There are three rounds. In the Individual Round, students solve 25 problems in 40 minutes. In the Team Round, teams of four solve 10 problems in 20 minutes. In the Relay Round, teams complete two sets of four connected problems, with 10 minutes per set. See the Competition page for scoring details." },
     { question: "How are awards decided?", answer: "The top 10 students in each grade receive individual awards, based only on Individual Round scores. Team awards go to the top 5 FSA teams and the top 10 visiting teams, ranked by the team's total: all four members' Individual Round scores plus the Team Round and Relay Round scores." },

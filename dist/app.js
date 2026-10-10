@@ -23,9 +23,10 @@ function safeUrl(value, hosts) {
 // Only Google Forms links are accepted for registration.
 const googleFormHosts = ['docs.google.com', 'forms.gle'];
 function configureContent() {
-  document.title = `${site.name} · Grades 3–5`;
-  $('.brand[aria-label]').setAttribute('aria-label', `${site.name} home`);
+  document.title = `${site.shortName} · ${site.name}`;
+  $('.brand[aria-label]').setAttribute('aria-label', `${site.shortName} home`);
   fillAll('[data-site-name]', site.name);
+  fillAll('[data-short-name]', site.shortName);
   fillAll('[data-event-organizer]', site.organizer);
   fillAll('[data-event-date]', site.date);
   fillAll('[data-event-date-notice]', site.dateNotice);
@@ -226,8 +227,8 @@ function route() {
   $$('[data-page]').forEach((link) => { if (link.dataset.page === requested) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
   $('#main-nav').classList.remove('open');
   $('#menu-toggle').setAttribute('aria-expanded', 'false');
-  const title = { home: 'Grades 3–5', competition: 'The competition', news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', register: 'Student registration' };
-  document.title = `${site.name} · ${title[requested]}`;
+  const title = { home: site.name, competition: 'The competition', news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', register: 'Student registration' };
+  document.title = `${site.shortName} · ${title[requested]}`;
   if (changed) {
     window.scrollTo({ top: 0, behavior: 'instant' });
     const heading = $(`[data-route="${requested}"] h1`);

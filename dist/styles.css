@@ -12,3 +12,7 @@
 .scoring-list{margin:6px 0 0;padding-left:20px}
 @media (max-width:850px){.competition-info,.rounds-list{grid-template-columns:1fr}}
 .home-page .details-strip{margin-bottom:56px}
+.brand{display:inline-flex;flex-direction:column;line-height:1.1}
+.brand-short{font-size:26px;letter-spacing:-.01em}
+.brand-full{font:600 11px/1.3 Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.eyebrow{text-transform:uppercase}
