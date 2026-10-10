@@ -4,7 +4,7 @@ import { emailRegistration, registrationEmails } from '../netlify/functions/lib/
 
 // Synthetic data only. This script renders files and never sends email.
 const sample = {
-  'registration-purpose': 'math-competition', 'registration-reference': 'FSMT-012345ABCDEF',
+  'registration-purpose': 'math-competition', 'registration-reference': 'FSMT-FALL2026-012345ABCDEF',
   'parent-consent': 'yes', 'student-count': '4', 'parent-name': 'Sample Family Contact', email: 'parent@example.org',
   'student-first-name': 'Avery', 'student-last-name': 'Johnson', grade: '3', school: 'Sample School',
   'student-2-first-name': 'Blake', 'student-2-last-name': 'Smith', 'student-2-grade': '3', 'student-2-school': 'Sample School',

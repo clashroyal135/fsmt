@@ -5,7 +5,7 @@ import eventHandler from '../netlify/functions/registration-notifications.mjs';
 import { emailRegistration, registrationEmails, createNotificationHandler } from '../netlify/functions/lib/registration-emails.mjs';
 
 const data = (overrides = {}) => ({
-  'registration-purpose': 'math-competition', 'registration-reference': 'FSMT-012345ABCDEF',
+  'registration-purpose': 'math-competition', 'registration-reference': 'FSMT-FALL2026-012345ABCDEF',
   'parent-consent': 'yes', 'student-count': '4', 'parent-name': 'Sample Contact', email: 'parent@example.org',
   'student-first-name': 'Avery', 'student-last-name': 'Johnson', grade: '3', school: 'Sample School',
   'student-2-first-name': 'Blake', 'student-2-last-name': 'Smith', 'student-2-grade': '3', 'student-2-school': 'Sample School',
@@ -35,7 +35,7 @@ test('four students share one parent confirmation and one separate organizer not
     assert.equal(message.cc, undefined);
     assert.equal(message.bcc, undefined);
     for (const name of ['Avery Johnson', 'Blake Smith', 'Casey Brown', 'Drew Williams']) assert.ok(message.text.includes(name));
-    assert.ok(message.text.includes('FSMT-012345ABCDEF'));
+    assert.ok(message.text.includes('FSMT-FALL2026-012345ABCDEF'));
     assert.ok(message.text.includes('pending school confirmation'));
   }
   assert.ok(messages[0].message.html.includes('https://school.example/donate?campaign=math&amp;year=2026'));
