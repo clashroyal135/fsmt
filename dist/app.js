@@ -287,7 +287,7 @@ async function loadRegistrations() {
 function generateReference() {
   const bytes = new Uint8Array(6);
   crypto.getRandomValues(bytes);
-  return `MATH-${[...bytes].map((value) => value.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+  return `FSMT-${[...bytes].map((value) => value.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
 }
 function value(name) { return $('#registration-form').elements.namedItem(name).value.trim(); }
 function registrationStudents() {
