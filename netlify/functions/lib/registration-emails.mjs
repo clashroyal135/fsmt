@@ -16,7 +16,7 @@ export function emailRegistration(data) {
   const email = typeof data.email === 'string' ? data.email.trim() : '';
   const contactName = textValue(data['parent-name']);
   const reference = textValue(data['registration-reference'], 40);
-  if (!students || students.some((student) => !student.school) || !validEmail(email) || !contactName || !/^MATH-[A-F0-9]{12}$/.test(reference)) return null;
+  if (!students || students.some((student) => !student.school) || !validEmail(email) || !contactName || !/^FSMT-[A-F0-9]{12}$/.test(reference)) return null;
   return { students, email, contactName, reference, mediaConsent: data['media-consent'] === 'yes' };
 }
 
