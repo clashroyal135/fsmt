@@ -27,8 +27,8 @@ test('four students share one parent confirmation and one separate organizer not
   const messages = registrationEmails(emailRegistration(data()), { ...enabled, donationUrl: 'https://school.example/donate?campaign=math&year=2026' });
   assert.equal(messages.length, 2);
   assert.deepEqual(messages[0].message.to, ['parent@example.org']);
-  assert.deepEqual(messages[1].message.to, ['fsmt@fultonscienceacademy.org']);
-  assert.equal(messages[0].message.reply_to, 'fsmt@fultonscienceacademy.org');
+  assert.deepEqual(messages[1].message.to, ['chrisgaorb@gmail.com']);
+  assert.equal(messages[0].message.reply_to, 'chrisgaorb@gmail.com');
   assert.equal(messages[1].message.reply_to, 'parent@example.org');
   for (const { message } of messages) {
     assert.equal(message.from, 'Fulton Science Academy Mu Alpha Theta <fsmt@fultonscienceacademy.org>');
@@ -127,7 +127,7 @@ test('one recipient failure does not prevent the other request and is reported w
     requests.push(message.to[0]);
     return message.to[0] === 'parent@example.org' ? new Response(JSON.stringify({ message: 'parent@example.org private-test-secret' }), { status: 403 }) : accepted();
   } })({ data: data() }), /failed for parent/);
-  assert.deepEqual(requests.sort(), ['fsmt@fultonscienceacademy.org', 'parent@example.org']);
+  assert.deepEqual(requests.sort(), ['chrisgaorb@gmail.com', 'parent@example.org']);
   const serialized = JSON.stringify(logs);
   assert.ok(!serialized.includes('parent@example.org') && !serialized.includes('private-test-secret') && !serialized.includes('Avery Johnson'));
 });
