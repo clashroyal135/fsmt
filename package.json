@@ -1,0 +1,14 @@
+{
+  "name": "math-competition-registration",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A school math competition website for grades 3–5, with Netlify Forms registration and a limited public roster.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/preview.mjs",
+    "test": "node --test tests/registrations.test.mjs tests/registration-emails.test.mjs",
+    "preview:emails": "node scripts/preview-emails.mjs",
+    "check": "node scripts/check.mjs"
+  }
+}
