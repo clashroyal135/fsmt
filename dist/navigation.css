@@ -1,11 +1,19 @@
 /* Stronger visual hierarchy for the site navigation. */
-#main-nav { gap: 14px; }
+#main-nav {
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background: linear-gradient(110deg, #0f4c81, #176f9e 55%, #147a78);
+  box-shadow: 0 3px 9px #123b6833;
+}
 
 #main-nav > a:not(.button) {
-  color: var(--blue);
+  color: #fff;
   font-size: 20px;
   font-weight: 700;
   letter-spacing: .01em;
+  padding: 5px 9px;
+  border-radius: 3px;
 }
 
 #main-nav > a:not(.button)::after {
@@ -19,10 +27,18 @@
 
 #main-nav > a:not(.button):hover::after,
 #main-nav > a[aria-current='page']::after {
-  background: var(--blue);
+  background: #fff;
+}
+
+#main-nav > a:not(.button):hover,
+#main-nav > a[aria-current='page'] {
+  color: #fff;
+  background: #ffffff26;
+  text-decoration: none;
 }
 
 @media (max-width: 850px) {
+  #main-nav { background: linear-gradient(110deg, #0f4c81, #176f9e 55%, #147a78); }
   #main-nav > a:not(.button) { font-size: 18px; }
   #main-nav > a:not(.button)::after { display: none; }
 }
