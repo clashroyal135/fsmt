@@ -92,7 +92,7 @@ function renderCompetitionInfo() {
   $('#team-scoring').replaceChildren(...(site.teamScoring || []).map((text) => element('li', text)));
 }
 function renderNews() {
-  $('#home-news').replaceChildren(...site.news.slice(0, 2).map(makeNewsCard));
+  $('#home-news').replaceChildren(...site.news.slice(0, 1).map(makeNewsCard));
   $('#all-news').replaceChildren(...site.news.map(makeNewsCard));
   $('#faq-list').replaceChildren(...site.faqs.map((faq) => {
     const details = element('details');
@@ -251,6 +251,7 @@ $('#menu-toggle').addEventListener('click', () => {
   const open = $('#main-nav').classList.toggle('open');
   $('#menu-toggle').setAttribute('aria-expanded', String(open));
 });
+$('#scroll-cue').addEventListener('click', () => $('#home-details').scrollIntoView({ behavior: 'smooth', block: 'start' }));
 $('#close-article').addEventListener('click', () => $('#article-dialog').close());
 $('#close-info').addEventListener('click', () => $('#info-dialog').close());
 $('#info-dialog').addEventListener('close', () => { if (['privacy', 'organizers'].includes(location.hash.slice(1))) location.hash = currentRoute; });
