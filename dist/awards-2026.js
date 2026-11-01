@@ -140,12 +140,12 @@ export const awards2026 = {
           "school": "Sawnee Elementary School"
         },
         {
-          "place": "6th tie",
+          "place": "Tied for 6th",
           "name": "Adwaith Vijay Kumar",
           "school": "Shiloh Point Elementary School"
         },
         {
-          "place": "6th tie",
+          "place": "Tied for 6th",
           "name": "Jashn Gill",
           "school": "Fulton Science Academy"
         },

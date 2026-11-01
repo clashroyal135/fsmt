@@ -16,7 +16,7 @@ assert.ok(Array.isArray(site.news) && Array.isArray(site.faqs));
 assert.deepEqual(awards2026.individual.map((grade) => grade.winners.length), [10, 10, 10], 'Expected 10 individual awards in each grade');
 assert.deepEqual(
   awards2026.individual.find((grade) => grade.grade === '5')?.winners.slice(5, 7).map(({ place, name }) => [place, name]),
-  [['6th tie', 'Adwaith Vijay Kumar'], ['6th tie', 'Jashn Gill']],
+  [['Tied for 6th', 'Adwaith Vijay Kumar'], ['Tied for 6th', 'Jashn Gill']],
   'Grade 5 sixth-place tie must be shown for both students'
 );
 assert.deepEqual(awards2026.teams.map((division) => division.winners.length), [10, 3], 'Expected 10 visiting or mixed-school teams and 3 FSA teams');

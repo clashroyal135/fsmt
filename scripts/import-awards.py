@@ -37,7 +37,7 @@ for row in book["Individual Awards"].values:
         individual.append(group)
     elif first.endswith(("st", "nd", "rd", "th")) and group:
         # The Grade 5 students listed sixth and seventh share sixth place.
-        display_place = "6th tie" if group["grade"] == "5" and first in ("6th", "7th") else first
+        display_place = "Tied for 6th" if group["grade"] == "5" and first in ("6th", "7th") else first
         group["winners"].append({
             "place": display_place,
             "name": clean(row[1]),

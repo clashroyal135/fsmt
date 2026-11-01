@@ -82,7 +82,7 @@ function renderAwards() {
     const list = element('ol', undefined, 'individual-award-list');
     for (const winner of grade.winners) {
       const rank = Number.parseInt(winner.place, 10);
-      const row = element('li', undefined, `individual-award-row${rank <= 3 ? ` award-rank-${rank}` : ''}`);
+      const row = element('li', undefined, `individual-award-row${rank <= 3 ? ` award-rank-${rank}` : ''}${winner.place.startsWith('Tied') ? ' award-tie' : ''}`);
       row.append(placeBadge(winner.place), element('strong', winner.name), element('span', winner.school, 'winner-school'));
       list.append(row);
     }

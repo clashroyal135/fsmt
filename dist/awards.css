@@ -42,6 +42,7 @@
 .grade-awards:nth-child(2) h4 { color: #11685f; border-bottom-color: #45a295; }
 .grade-awards:nth-child(3) h4 { color: #664d85; border-bottom-color: #9c82b6; }
 .individual-award-row { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 0 8px; align-items: center; padding: 11px 8px; border-bottom: 1px solid #dce5ed; line-height: 1.35; }
+.individual-award-row.award-tie { grid-template-columns: 100px minmax(0, 1fr); }
 .individual-award-row.award-rank-1, .individual-award-row.award-rank-2, .individual-award-row.award-rank-3 { margin-bottom: 4px; border-width: 1px; border-style: solid; border-radius: 8px; }
 .individual-award-row strong { color: #1e3448; font-size: 14px; overflow-wrap: anywhere; }
 .individual-award-row .winner-school { grid-column: 2; color: #627282; font-size: 12px; }
