@@ -1,9 +1,10 @@
 import { site } from './content.js';
+import { awards2026 } from './awards-2026.js';
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const localPreview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
-const routes = ['home', 'competition', 'news', 'past-tournaments', 'faqs', 'about', 'register'];
+const routes = ['home', 'competition', 'news', 'past-tournaments', 'faqs', 'about'];
 let currentRoute = 'home';
 
 function element(tag, text, className) {
@@ -13,15 +14,6 @@ function element(tag, text, className) {
   return node;
 }
 function fillAll(selector, text) { $$(selector).forEach((node) => { node.textContent = text; }); }
-function safeUrl(value, hosts) {
-  try {
-    const url = new URL(value);
-    if (url.protocol !== 'https:' || url.username || url.password) return null;
-    return !hosts || hosts.includes(url.hostname) ? url.href : null;
-  } catch { return null; }
-}
-// Only Google Forms links are accepted for registration.
-const googleFormHosts = ['docs.google.com', 'forms.gle'];
 function configureContent() {
   document.title = `${site.organizer} · ${site.name}`;
   $('.header-brand').setAttribute('aria-label', `${site.organizer} home`);
@@ -37,19 +29,66 @@ function configureContent() {
   fillAll('[data-event-deadline]', site.deadline);
   fillAll('[data-event-fee]', site.fee);
   fillAll('[data-donation-instructions]', site.donationInstructions);
-  fillAll('[data-registration-status]', site.registrationOpen ? `Registration is open until ${site.deadline}` : 'Registration is closed');
+  fillAll('[data-registration-status]', 'Tournament complete · October 31, 2026');
   $('#hero-description').textContent = site.description;
   fillAll('[data-contact-note]', site.contactEmail ? 'For questions or corrections, email:' : site.contactNote);
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.contactEmail)) {
     $$('[data-contact-link]').forEach((link) => { link.href = `mailto:${site.contactEmail}`; link.textContent = site.contactEmail; link.hidden = false; });
   }
   $('#preview-banner').hidden = !localPreview;
-  const formUrl = site.registrationOpen ? safeUrl(site.registrationFormUrl, googleFormHosts) : null;
-  if (formUrl) { $('#registration-form-link').href = formUrl; $('#registration-form-link').hidden = false; }
-  $('#registration-notice').hidden = !!formUrl;
-  if (!formUrl && site.registrationOpen) $('#registration-notice').textContent = 'The registration form link will be posted here shortly.';
-  const donationUrl = safeUrl(site.donationUrl);
-  if (donationUrl) { $('#donation-link').href = donationUrl; $('#donation-link').hidden = false; }
+}
+
+function renderAwards() {
+  const medal = { 1: '🥇', 2: '🥈', 3: '🥉' };
+  function placeBadge(place) {
+    const rank = Number.parseInt(place, 10);
+    const badge = element('span', undefined, 'award-place');
+    if (medal[rank]) {
+      const icon = element('span', medal[rank], 'award-medal');
+      icon.setAttribute('aria-hidden', 'true');
+      badge.append(icon);
+    }
+    badge.append(element('span', place));
+    return badge;
+  }
+  $('#team-awards-list').replaceChildren(...awards2026.teams.map((division) => {
+    const section = element('section', undefined, 'division-block');
+    const heading = element('div', undefined, 'division-heading');
+    heading.append(element('h4', division.name), element('p', division.description));
+    const list = element('ol', undefined, 'team-award-grid');
+    for (const team of division.winners) {
+      const rank = Number.parseInt(team.place, 10);
+      const card = element('li', undefined, `team-award-card${rank <= 3 ? ` award-rank-${rank}` : ''}`);
+      const top = element('div', undefined, 'team-card-top');
+      top.append(placeBadge(team.place), element('h5', team.name));
+      const roster = element('ul', undefined, 'team-roster');
+      for (const member of team.members) {
+        const item = element('li');
+        item.append(element('strong', member.name));
+        const detail = division.name === 'FSA Division' ? member.grade : `${member.grade} · ${member.school}`;
+        item.append(element('span', detail));
+        roster.append(item);
+      }
+      card.append(top, roster);
+      list.append(card);
+    }
+    section.append(heading, list);
+    return section;
+  }));
+
+  $('#individual-awards-list').replaceChildren(...awards2026.individual.map((grade) => {
+    const section = element('section', undefined, 'grade-awards');
+    section.append(element('h4', `Grade ${grade.grade}`));
+    const list = element('ol', undefined, 'individual-award-list');
+    for (const winner of grade.winners) {
+      const rank = Number.parseInt(winner.place, 10);
+      const row = element('li', undefined, `individual-award-row${rank <= 3 ? ` award-rank-${rank}` : ''}`);
+      row.append(placeBadge(winner.place), element('strong', winner.name), element('span', winner.school, 'winner-school'));
+      list.append(row);
+    }
+    section.append(list);
+    return section;
+  }));
 }
 
 function makeNewsCard(article) {
@@ -120,6 +159,29 @@ function renderPastTournaments() {
     const introduction = element('div');
     introduction.append(element('p', tournament.summary));
     header.append(year, introduction);
+
+    if (tournament.problems?.length) {
+      const problems = element('section', undefined, 'archive-problems');
+      problems.append(element('h3', 'Round problems'));
+      const grid = element('div', undefined, 'archive-problems-grid');
+      for (const problem of tournament.problems) {
+        const link = element('a', undefined, 'archive-problem-card');
+        link.href = problem.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', `Open ${tournament.year} ${problem.title} problems PDF (opens in a new tab)`);
+        link.append(element('span', 'PDF', 'problem-file-type'), element('h4', problem.title), element('p', problem.detail), element('span', 'Open problem set ↗', 'problem-action'));
+        grid.append(link);
+      }
+      problems.append(grid);
+      const awards = element('section', undefined, 'archive-awards-callout');
+      awards.append(element('h3', '2026 award winners'), element('p', 'See the team and individual award winners from this tournament.'));
+      const awardsLink = element('a', 'View 2026 awards →', 'text-link');
+      awardsLink.href = '#awards';
+      awards.append(awardsLink);
+      article.append(header, problems, awards);
+      return article;
+    }
 
     const photos = element('section', undefined, 'archive-section');
     photos.append(element('h3', 'Photos'));
@@ -203,22 +265,24 @@ function openInformation(kind) {
   $('#info-eyebrow').textContent = privacy ? 'YOUR INFORMATION' : 'FOR THE ORGANIZING TEAM';
   $('#info-title').textContent = privacy ? 'Privacy' : 'Managing registrations';
   const paragraphs = privacy ? [
-    'Registration takes place on a Google Form run by Fulton Science Academy Mu Alpha Theta. It collects each student’s full name, grade, and school, plus one parent, guardian, or authorized group contact’s name and email address, a parent or guardian permission confirmation, and an optional photo and media choice. You can register up to four students in one form. The organizer uses these details to run the competition and contact families.',
-    'Responses are stored in the organizer’s Google account and are visible only to the organizing team. Google processes the responses and emails the contact a copy of their answers. Student names and contact details are not published on this website.',
+    'Registration for 2026 took place on a Google Form run by Fulton Science Academy Mu Alpha Theta. It collected each student’s full name, grade, and school, plus one parent, guardian, or authorized group contact’s name and email address, a parent or guardian permission confirmation, and an optional photo and media choice. The organizer uses these details to run the competition and contact families.',
+    'Responses are stored in the organizer’s Google account and are visible only to the organizing team. Google processes the responses and emails the contact a copy of their answers. The 2026 awards on this website list awardees’ names and schools. Parent and guardian contact details are not published.',
     'Photo and media permission is optional. Choosing yes gives permission for Fulton Science Academy Mu Alpha Theta to photograph and record every student in the registration during the tournament and publish the photos and videos on school or tournament websites, social media, newsletters, and promotional materials. Only choose yes if you have parent or guardian permission for every student. Students can participate without this permission. Contact the organizer to change your choice or to correct or remove a registration.',
     'Payment happens on the school’s donation website, under the school’s own payment and privacy policies. This website does not collect card details or automatically confirm a payment.'
   ] : [
     'Registrations are collected with the tournament’s Google Form. Open the form in Google Forms and choose Responses, or open the linked Google Sheet, to review, sort, and export registrations. Share access only with the organizing team.',
     'Check the photo and media permission answer before taking or publishing photos or videos of students. Only yes grants permission for every student in that registration.',
     'Payment must be confirmed using the school’s donation records. Match each donation to a registration using the parent or guardian name and the student names.',
-    'To update event information, publish news, edit FAQs, or change the registration form link, edit dist/content.js and redeploy the website.'
+    'To update event information, publish news, or edit FAQs, edit dist/content.js and redeploy the website. Award listings are in dist/awards-2026.js.'
   ];
   const nodes = paragraphs.map((text) => element('p', text));
   $('#info-body').replaceChildren(...nodes);
   if (!$('#info-dialog').open) $('#info-dialog').showModal();
 }
 function route() {
-  const requested = location.hash.slice(1) || 'home';
+  const fragment = location.hash.slice(1);
+  const awardAnchor = ['awards', 'team-awards', 'individual-awards'].includes(fragment) ? fragment : null;
+  const requested = awardAnchor ? 'home' : fragment || 'home';
   if (['privacy', 'organizers'].includes(requested)) { openInformation(requested); return; }
   if (!routes.includes(requested)) { location.hash = 'home'; return; }
   const changed = currentRoute !== requested;
@@ -227,8 +291,10 @@ function route() {
   $$('[data-page]').forEach((link) => { if (link.dataset.page === requested) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
   $('#main-nav').classList.remove('open');
   $('#menu-toggle').setAttribute('aria-expanded', 'false');
-  const title = { home: site.name, competition: site.shortName, news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', about: 'About Us', register: 'Student registration' };
+  const title = { home: site.name, competition: site.shortName, news: 'News & updates', 'past-tournaments': 'Past tournaments', faqs: 'FAQs', about: 'About Us' };
   document.title = `${site.organizer} · ${title[requested]}`;
+  if (awardAnchor) requestAnimationFrame(() => document.getElementById(awardAnchor).scrollIntoView({ behavior: 'instant', block: 'start' }));
+  if (fragment === 'home') requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   if (changed) {
     window.scrollTo({ top: 0, behavior: 'instant' });
     const heading = $(`[data-route="${requested}"] h1`);
@@ -238,6 +304,7 @@ function route() {
 }
 
 configureContent();
+renderAwards();
 renderCompetitionInfo();
 renderNews();
 renderPastTournaments();
@@ -251,7 +318,7 @@ $('#menu-toggle').addEventListener('click', () => {
   const open = $('#main-nav').classList.toggle('open');
   $('#menu-toggle').setAttribute('aria-expanded', String(open));
 });
-$('#scroll-cue').addEventListener('click', () => $('#home-details').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+$('#scroll-cue').addEventListener('click', () => $('#awards').scrollIntoView({ behavior: 'smooth', block: 'start' }));
 $('#close-article').addEventListener('click', () => $('#article-dialog').close());
 $('#close-info').addEventListener('click', () => $('#info-dialog').close());
 $('#info-dialog').addEventListener('close', () => { if (['privacy', 'organizers'].includes(location.hash.slice(1))) location.hash = currentRoute; });

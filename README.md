@@ -1,8 +1,8 @@
 # Fulton Science Math Tournament website
 
-The website for the Fulton Science Math Tournament, organized by Fulton Science Academy Mu Alpha Theta. Students in grades 3–5 compete in Individual, Team, and Relay rounds on October 31, 2026 (rescheduled from October 10 due to Hurricane Isaias) at Fulton Science Academy, 3035 Fanfare Way, Alpharetta, GA 30009. The fee is $25 per person or $100 for a group of 4.
+The website for the Fulton Science Math Tournament, organized by Fulton Science Academy Mu Alpha Theta. FSMT Fall 2026 took place on October 31, 2026 at Fulton Science Academy. The homepage now lists the team and individual award winners.
 
-It is a static site hosted on Netlify: plain HTML, CSS, and JavaScript, with no packages to install. Registration happens on a **Google Form**, and payment happens on the school's GiveCampus donation page.
+It is a static site hosted on Netlify: plain HTML, CSS, and JavaScript, with no packages to install. Registration for Fall 2026 is closed.
 
 ## Preview locally
 
@@ -16,33 +16,30 @@ Open the printed `http://127.0.0.1:4173` URL. Stop it with Ctrl+C.
 
 ## Editing site content
 
-Everything families read (event details, the schedule, round rules, awards, the registration form link, the donation link, news, FAQs, past tournaments) lives in `dist/content.js`. Edit that file and redeploy. News articles support a title, category, optional date (`YYYY-MM-DD`), summary, and paragraphs, and are shown in file order, so put the latest first.
+General event details, round rules, news, FAQs, and past tournaments live in `dist/content.js`. The Fall 2026 award listings live in `dist/awards-2026.js`, generated from the `Team Awards` and `Individual Awards` tabs of `SCORES FSMT Fall 2026.xlsx` with `python scripts/import-awards.py`. Edit the content and redeploy. News articles support a title, category, optional date (`YYYY-MM-DD`), summary, and paragraphs, and are shown in file order, so put the latest first.
 
 Key settings:
 
 ```js
-registrationOpen: true,
-registrationFormUrl: "https://forms.gle/QsQDTrrTADWsS3K49",
-deadline: "October 29, 2026 at 11:59 PM",
-fee: "$25 per person · $100 for a team of 4",
-donationUrl: "https://www.givecampus.com/...",
+registrationOpen: false,
+registrationFormUrl: "",
 contactEmail: "fsmt@fultonscienceacademy.org",
 ```
 
 ### Past tournaments
 
-The **Past tournaments** page (`#past-tournaments`) is linked from the navigation, homepage, and footer. The 2025 entry is ready for last year's photos, results, and awards. Empty sections show "coming soon".
+The **Past tournaments** page (`#past-tournaments`) is linked from the navigation, homepage, and footer. The 2026 entry links the Individual, Team, and Relay Round PDFs and the award winners. The 2025 entry is ready for photos, results, and awards when they are available. Empty sections show "coming soon".
 
 Edit `pastTournaments` in `dist/content.js`:
 
-- Each year has `year`, `title`, `summary`, `photos`, `results`, and `awards`. The page shows the newest year first.
+- Each year has `year`, `title`, `summary`, `photos`, `results`, and `awards`. A year can also have `problems` entries with `title`, `detail`, and a local PDF `href`. The page shows the newest year first.
 - Put photo files in `dist/assets/tournaments/2025/`. Each `photos` entry has `src` (for example `/assets/tournaments/2025/team-photo.jpg`), descriptive `alt` text, and an optional `caption`. JPEG, PNG, and WebP are supported.
 - Each `results` entry has `category`, `placement`, `participant` (public display name), and an optional `score`.
 - Each `awards` entry has `title`, `recipient` (public display name), and an optional `description`.
 
 Only publish photos and names that are authorized for that tournament. This year's media permission does not cover last year's photos.
 
-## Registration with Google Forms
+## Registration with Google Forms for a future tournament
 
 The website's Registration page explains the three steps (fill out the form, check email, pay) and shows two buttons: **Open the registration form** (from `registrationFormUrl`) and **Continue to school donation page** (from `donationUrl`). If `registrationFormUrl` is empty, the page says the link is coming soon instead. Only `docs.google.com/forms/...` and `forms.gle/...` links are accepted.
 

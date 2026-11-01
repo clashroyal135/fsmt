@@ -7,3 +7,7 @@ artifacts/
 *.log
 .DS_Store
 .smbdelete*
+/SCORES FSMT Fall 2026.xlsx
+/FSMT_2026_Fall_Individual_Round.pdf
+/FSMT_2026_Fall_Team_Round.pdf
+/FSTM_2026_Fall_Relay_Round.pdf

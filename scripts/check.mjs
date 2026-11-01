@@ -3,15 +3,19 @@ import { readFile, stat } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { site } from '../dist/content.js';
+import { awards2026 } from '../dist/awards-2026.js';
 
 const project = fileURLToPath(new URL('../', import.meta.url));
-for (const path of ['dist/app.js', 'dist/content.js', 'scripts/preview.mjs']) {
+for (const path of ['dist/app.js', 'dist/content.js', 'dist/awards-2026.js', 'scripts/preview.mjs']) {
   const result = spawnSync(process.execPath, ['--check', path], { cwd: project, encoding: 'utf8' });
   assert.equal(result.status, 0, `${path}: ${result.stderr}`);
 }
 assert.ok(site.name.trim(), 'Site name is required');
 assert.equal(typeof site.registrationOpen, 'boolean');
 assert.ok(Array.isArray(site.news) && Array.isArray(site.faqs));
+assert.deepEqual(awards2026.individual.map((grade) => grade.winners.length), [10, 10, 10], 'Expected 10 individual awards in each grade');
+assert.deepEqual(awards2026.teams.map((division) => division.winners.length), [10, 3], 'Expected 10 visiting or mixed-school teams and 3 FSA teams');
+for (const division of awards2026.teams) for (const team of division.winners) assert.equal(team.members.length, 4, `${team.name} should have four members`);
 if (site.donationUrl) {
   const url = new URL(site.donationUrl);
   assert.equal(url.protocol, 'https:', 'Donation URL must use HTTPS');
@@ -41,6 +45,12 @@ assert.equal(new Set(site.pastTournaments.map((tournament) => tournament.year)).
 for (const tournament of site.pastTournaments) {
   assert.ok(Number.isInteger(tournament.year) && tournament.title && tournament.summary, 'Past tournament details are incomplete');
   assert.ok(Array.isArray(tournament.photos) && Array.isArray(tournament.results) && Array.isArray(tournament.awards), 'Past tournament sections must be arrays');
+  for (const problem of tournament.problems || []) {
+    assert.ok(problem.title && problem.detail, 'Round problem title and description are required');
+    assert.match(problem.href, /^\/assets\/tournaments\/\d{4}\/[a-z-]+\.pdf$/, 'Use a local tournament PDF');
+    const pdf = await readFile(new URL(`../dist${problem.href}`, import.meta.url));
+    assert.equal(pdf.subarray(0, 4).toString(), '%PDF', `Invalid tournament PDF: ${problem.href}`);
+  }
   for (const photo of tournament.photos) {
     assert.match(photo.src, /^\/assets\/tournaments\/[^?#]+\.(?:jpe?g|png|webp)$/i, 'Use a local tournament photo');
     assert.ok(typeof photo.alt === 'string' && photo.alt.trim(), 'Tournament photos need descriptive alt text');
@@ -52,6 +62,7 @@ for (const tournament of site.pastTournaments) {
 const html = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 const app = await readFile(new URL('../dist/app.js', import.meta.url), 'utf8');
 assert.doesNotMatch(html, /data-netlify/, 'Registration uses Google Forms; remove any Netlify form');
+assert.doesNotMatch(html, /href="#register"|data-route="register"/, 'Registration page and links should be removed after the tournament');
 const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
 assert.equal(ids.length, new Set(ids).size, 'Duplicate HTML ids');
 for (const [, id] of app.matchAll(/\$\('#([\w-]+)/g)) assert.ok(ids.includes(id), `app.js uses #${id}, which is missing from index.html`);
