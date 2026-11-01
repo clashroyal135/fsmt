@@ -38,6 +38,10 @@ Edit `pastTournaments` in `dist/content.js`:
 - Each `results` entry has `category`, `placement`, `participant` (public display name), and an optional `score`.
 - Each `awards` entry has `title`, `recipient` (public display name), and an optional `description`.
 
+### About Us photos
+
+The About Us page shows two organizer photos from `dist/assets/about/`. Source files are kept in `about_us/` and are not published directly. Update the image paths and alt text in `dist/index.html` when replacing them.
+
 Only publish photos and names that are authorized for that tournament. This year's media permission does not cover last year's photos.
 
 ## Registration with Google Forms for a future tournament

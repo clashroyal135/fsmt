@@ -73,6 +73,9 @@ for (const tournament of site.pastTournaments) {
 }
 const html = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 const app = await readFile(new URL('../dist/app.js', import.meta.url), 'utf8');
+const aboutImages = [...html.matchAll(/<img\b[^>]*src="(\/assets\/about\/[^"]+\.jpg)"[^>]*alt="([^"]+)"/g)];
+assert.equal(aboutImages.length, 2, 'About Us should show both organizer photos with alt text');
+for (const [, src] of aboutImages) assert.ok((await stat(new URL(`../dist${src}`, import.meta.url))).isFile(), `Missing About Us photo: ${src}`);
 assert.doesNotMatch(html, /data-netlify/, 'Registration uses Google Forms; remove any Netlify form');
 assert.doesNotMatch(html, /href="#register"|data-route="register"/, 'Registration page and links should be removed after the tournament');
 const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
