@@ -51,8 +51,13 @@ const fall2026Photos = site.pastTournaments.find((tournament) => tournament.year
 assert.equal(fall2026Photos.length, 51, 'Expected 51 Fall 2026 gallery photos');
 const fall2026Names = fall2026Photos.map((photo) => photo.src.split('/').at(-1));
 assert.equal(new Set(fall2026Names).size, fall2026Names.length, 'Fall 2026 gallery photos must be unique');
-assert.ok(fall2026Names.slice(0, 7).every((name) => name.startsWith('IMG_20261101_')), 'November 1 photos should appear first');
-assert.deepEqual(fall2026Names.slice(7), [...fall2026Names.slice(7)].sort(), 'Other photos should follow capture time order');
+assert.deepEqual(fall2026Names.slice(0, 12), [
+  'IMG_20261101_003523.jpg', 'IMG_20261031_090744.jpg', 'IMG_20261031_090755.jpg',
+  'IMG_20261031_090812.jpg', 'IMG_20261031_090815.jpg', 'IMG_20261101_003540.jpg',
+  'IMG_20261101_003535.jpg', 'IMG_20261101_003516.jpg', 'IMG_20261031_103950.jpg',
+  'IMG_20261101_003531.jpg', 'IMG_20261101_003552.jpg', 'IMG_20261101_003449.jpg',
+], 'The first 12 photos should follow the requested display order');
+assert.deepEqual(fall2026Names.slice(12), [...fall2026Names.slice(12)].sort(), 'Remaining photos should follow capture time order');
 assert.deepEqual(await readdir(new URL('../dist/assets/tournaments/2026/photos/', import.meta.url)), [...fall2026Names].sort(), 'The published photo folder should contain exactly the listed images');
 for (const tournament of site.pastTournaments) {
   assert.ok(Number.isInteger(tournament.year) && tournament.title && tournament.summary, 'Past tournament details are incomplete');

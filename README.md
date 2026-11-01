@@ -34,7 +34,7 @@ Edit `pastTournaments` in `dist/content.js`:
 
 - Each year has `year`, `title`, `summary`, `photos`, `results`, and `awards`. A year can also have `problems` entries with `title`, `detail`, and a local PDF `href`. The page shows the newest year first.
 - Put photo files in `dist/assets/tournaments/2025/`. Each `photos` entry has `src` (for example `/assets/tournaments/2025/team-photo.jpg`), descriptive `alt` text, and an optional `caption`. JPEG, PNG, and WebP are supported.
-- For the 2026 gallery, place source photos in `fsmt_2026_fall/photos/` and run `python scripts/import-photos.py`. The importer converts HEIC and JPEG still photos into web-sized JPEGs in `dist/assets/tournaments/2026/photos/` and generates `dist/photos-2026.js`. It shows filenames dated `20261101` first, then the remaining images in filename capture-time order. The source folder and its MP4 are not published.
+- For the 2026 gallery, place source photos in `fsmt_2026_fall/photos/` and run `python scripts/import-photos.py`. The importer converts HEIC and JPEG still photos into web-sized JPEGs in `dist/assets/tournaments/2026/photos/` and generates `dist/photos-2026.js`. The first 12 follow the requested display order in `opening_order`; photos 13–51 follow filename capture-time order. The source folder and its MP4 are not published.
 - Each `results` entry has `category`, `placement`, `participant` (public display name), and an optional `score`.
 - Each `awards` entry has `title`, `recipient` (public display name), and an optional `description`.
 
