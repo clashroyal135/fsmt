@@ -115,9 +115,11 @@ main { flex: 1 0 auto; }
 @media (max-width: 900px) {
   .header-inner { position: relative; }
   .menu-toggle { display: block; margin-left: auto; }
-  .header-inner nav { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 3; padding: 14px 22px; border: 0; background: #123b68; box-shadow: 0 8px 20px #17243424; }
+  .header-inner nav { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 3; border: 0; }
   .header-inner nav.open { display: flex; flex-direction: column; align-items: stretch; gap: 3px; }
-  #main-nav > a:not(.button) { font-size: 17px; }
+  #main-nav { margin-left: 0; padding: 14px 16px; gap: 3px; background: #123b68; box-shadow: 0 8px 20px #17243424; }
+  #main-nav > a:not(.button) { padding: 10px 12px; border-radius: 4px; font-size: 17px; }
+  #main-nav > a:not(.button):hover, #main-nav > a[aria-current='page'] { background: #ffffff20; }
   .footer-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
   .footer-links { justify-content: flex-start; }
 }
