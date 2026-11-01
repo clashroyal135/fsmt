@@ -14,6 +14,11 @@ assert.ok(site.name.trim(), 'Site name is required');
 assert.equal(typeof site.registrationOpen, 'boolean');
 assert.ok(Array.isArray(site.news) && Array.isArray(site.faqs));
 assert.deepEqual(awards2026.individual.map((grade) => grade.winners.length), [10, 10, 10], 'Expected 10 individual awards in each grade');
+assert.deepEqual(
+  awards2026.individual.find((grade) => grade.grade === '5')?.winners.slice(5, 7).map(({ place, name }) => [place, name]),
+  [['6th tie', 'Adwaith Vijay Kumar'], ['6th tie', 'Jashn Gill']],
+  'Grade 5 sixth-place tie must be shown for both students'
+);
 assert.deepEqual(awards2026.teams.map((division) => division.winners.length), [10, 3], 'Expected 10 visiting or mixed-school teams and 3 FSA teams');
 for (const division of awards2026.teams) for (const team of division.winners) assert.equal(team.members.length, 4, `${team.name} should have four members`);
 if (site.donationUrl) {
