@@ -154,6 +154,16 @@ function renderPhotoSection(tournament) {
   photos.append(element('h3', tournament.problems?.length ? 'Photo gallery' : 'Photos'));
   if (tournament.photos.length) {
     photos.append(element('p', `${tournament.photos.length} photos from the tournament`, 'archive-photo-count'));
+    if (tournament.photoNote) {
+      const note = element('aside', undefined, 'archive-photo-note');
+      note.append(element('strong', 'Help complete the gallery'));
+      const message = element('p', `${tournament.photoNote} `);
+      const email = element('a', site.contactEmail);
+      email.href = `mailto:${site.contactEmail}`;
+      message.append(email, document.createTextNode('.'));
+      note.append(message);
+      photos.append(note);
+    }
     const gallery = element('div', undefined, tournament.problems?.length ? 'archive-gallery archive-gallery-2026' : 'archive-gallery');
     for (const photo of tournament.photos) {
       const figure = element('figure');

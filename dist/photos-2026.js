@@ -5,6 +5,10 @@ export const photos2026 = [
     "alt": "Families checking in with student volunteers"
   },
   {
+    "src": "/assets/tournaments/2026/photos/IMG_20261101_003531.jpg",
+    "alt": "Volunteers helping families at the check-in table"
+  },
+  {
     "src": "/assets/tournaments/2026/photos/IMG_20261031_090744.jpg",
     "alt": "Students and families gathered in the tournament cafeteria"
   },
@@ -35,10 +39,6 @@ export const photos2026 = [
   {
     "src": "/assets/tournaments/2026/photos/IMG_20261031_103950.jpg",
     "alt": "Students working at tables during the tournament"
-  },
-  {
-    "src": "/assets/tournaments/2026/photos/IMG_20261101_003531.jpg",
-    "alt": "Volunteers helping families at the check-in table"
   },
   {
     "src": "/assets/tournaments/2026/photos/IMG_20261101_003552.jpg",

@@ -62,7 +62,7 @@ photos = sorted(
 assert len(photos) == 51, f"Expected 51 photos, found {len(photos)}"
 # Keep the first twelve in the requested display order. Positions are one-based
 # in the original timestamp-sorted list; the rest retain capture-time order.
-opening_order = [3, 8, 9, 10, 11, 6, 5, 2, 12, 4, 7, 1]
+opening_order = [3, 4, 8, 9, 10, 11, 6, 5, 2, 12, 7, 1]
 assert sorted(opening_order) == list(range(1, 13))
 ordered_photos = [(position, photos[position - 1]) for position in opening_order]
 ordered_photos += list(enumerate(photos[12:], 13))

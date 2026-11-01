@@ -49,6 +49,7 @@ export const site = {
         { title: "Relay Round", detail: "Rounds 1 and 2 · 4-page PDF", href: "/assets/tournaments/2026/relay-round.pdf" }
       ],
       photos: photos2026,
+      photoNote: "We're missing a few award ceremony photos. If you took any and would be happy for us to publish them here, please email them to",
       results: [],
       awards: []
     },
