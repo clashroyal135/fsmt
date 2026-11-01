@@ -1,5 +1,7 @@
 // Edit this file through Codex to publish competition details, news, FAQs, and past tournaments.
 // These are public settings. Never add credentials or registration records here.
+import { photos2026 } from './photos-2026.js';
+
 export const site = {
   name: "Fulton Science Math Tournament",
   shortName: "FSMT Fall 2026",
@@ -40,13 +42,13 @@ export const site = {
     {
       year: 2026,
       title: "Fall 2026",
-      summary: "The Fall 2026 tournament took place on October 31 at Fulton Science Academy. Explore the three round problem sets and the award winners.",
+      summary: "The Fall 2026 tournament took place on October 31 at Fulton Science Academy. Explore the round problems, award winners, and photo gallery.",
       problems: [
         { title: "Individual Round", detail: "25 problems · 8-page PDF", href: "/assets/tournaments/2026/individual-round.pdf" },
         { title: "Team Round", detail: "10 problems · 4-page PDF", href: "/assets/tournaments/2026/team-round.pdf" },
         { title: "Relay Round", detail: "Rounds 1 and 2 · 4-page PDF", href: "/assets/tournaments/2026/relay-round.pdf" }
       ],
-      photos: [],
+      photos: photos2026,
       results: [],
       awards: []
     },

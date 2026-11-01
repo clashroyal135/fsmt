@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { site } from '../dist/content.js';
 import { awards2026 } from '../dist/awards-2026.js';
 
 const project = fileURLToPath(new URL('../', import.meta.url));
-for (const path of ['dist/app.js', 'dist/content.js', 'dist/awards-2026.js', 'scripts/preview.mjs']) {
+for (const path of ['dist/app.js', 'dist/content.js', 'dist/awards-2026.js', 'dist/photos-2026.js', 'scripts/preview.mjs']) {
   const result = spawnSync(process.execPath, ['--check', path], { cwd: project, encoding: 'utf8' });
   assert.equal(result.status, 0, `${path}: ${result.stderr}`);
 }
@@ -47,6 +47,13 @@ for (const article of site.news) {
 for (const faq of site.faqs) assert.ok(faq.question && faq.answer, 'FAQ is incomplete');
 assert.ok(Array.isArray(site.pastTournaments), 'Past tournaments must be an array');
 assert.equal(new Set(site.pastTournaments.map((tournament) => tournament.year)).size, site.pastTournaments.length, 'Past tournament years must be unique');
+const fall2026Photos = site.pastTournaments.find((tournament) => tournament.year === 2026)?.photos || [];
+assert.equal(fall2026Photos.length, 51, 'Expected 51 Fall 2026 gallery photos');
+const fall2026Names = fall2026Photos.map((photo) => photo.src.split('/').at(-1));
+assert.equal(new Set(fall2026Names).size, fall2026Names.length, 'Fall 2026 gallery photos must be unique');
+assert.ok(fall2026Names.slice(0, 7).every((name) => name.startsWith('IMG_20261101_')), 'November 1 photos should appear first');
+assert.deepEqual(fall2026Names.slice(7), [...fall2026Names.slice(7)].sort(), 'Other photos should follow capture time order');
+assert.deepEqual(await readdir(new URL('../dist/assets/tournaments/2026/photos/', import.meta.url)), [...fall2026Names].sort(), 'The published photo folder should contain exactly the listed images');
 for (const tournament of site.pastTournaments) {
   assert.ok(Number.isInteger(tournament.year) && tournament.title && tournament.summary, 'Past tournament details are incomplete');
   assert.ok(Array.isArray(tournament.photos) && Array.isArray(tournament.results) && Array.isArray(tournament.awards), 'Past tournament sections must be arrays');

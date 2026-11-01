@@ -149,6 +149,36 @@ function archiveEmpty(title, description, symbol) {
   return placeholder;
 }
 
+function renderPhotoSection(tournament) {
+  const photos = element('section', undefined, tournament.problems?.length ? 'archive-section archive-photo-section' : 'archive-section');
+  photos.append(element('h3', tournament.problems?.length ? 'Photo gallery' : 'Photos'));
+  if (tournament.photos.length) {
+    photos.append(element('p', `${tournament.photos.length} photos from the tournament`, 'archive-photo-count'));
+    const gallery = element('div', undefined, tournament.problems?.length ? 'archive-gallery archive-gallery-2026' : 'archive-gallery');
+    for (const photo of tournament.photos) {
+      const figure = element('figure');
+      const link = element('a');
+      link.href = photo.src;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.setAttribute('aria-label', `View full photo: ${photo.alt} (opens in a new tab)`);
+      const image = element('img');
+      image.src = photo.src;
+      image.alt = photo.alt;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      link.append(image);
+      figure.append(link);
+      if (photo.caption) figure.append(element('figcaption', photo.caption));
+      gallery.append(figure);
+    }
+    photos.append(gallery);
+  } else {
+    photos.append(archiveEmpty('Coming soon', '', '▧'));
+  }
+  return photos;
+}
+
 function renderPastTournaments() {
   const tournaments = [...site.pastTournaments].sort((a, b) => b.year - a.year);
   fillAll('[data-archive-year]', tournaments[0]?.year ?? '✳');
@@ -179,35 +209,11 @@ function renderPastTournaments() {
       const awardsLink = element('a', 'View 2026 awards →', 'text-link');
       awardsLink.href = '#awards';
       awards.append(awardsLink);
-      article.append(header, problems, awards);
+      article.append(header, problems, awards, renderPhotoSection(tournament));
       return article;
     }
 
-    const photos = element('section', undefined, 'archive-section');
-    photos.append(element('h3', 'Photos'));
-    if (tournament.photos.length) {
-      const gallery = element('div', undefined, 'archive-gallery');
-      for (const photo of tournament.photos) {
-        const figure = element('figure');
-        const link = element('a');
-        link.href = photo.src;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.setAttribute('aria-label', `View full photo: ${photo.alt} (opens in a new tab)`);
-        const image = element('img');
-        image.src = photo.src;
-        image.alt = photo.alt;
-        image.loading = 'lazy';
-        image.decoding = 'async';
-        link.append(image);
-        figure.append(link);
-        if (photo.caption) figure.append(element('figcaption', photo.caption));
-        gallery.append(figure);
-      }
-      photos.append(gallery);
-    } else {
-      photos.append(archiveEmpty('Coming soon', '', '▧'));
-    }
+    const photos = renderPhotoSection(tournament);
 
     const details = element('div', undefined, 'archive-details-grid');
     const results = element('section', undefined, 'archive-section');
