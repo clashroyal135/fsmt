@@ -48,16 +48,19 @@ for (const faq of site.faqs) assert.ok(faq.question && faq.answer, 'FAQ is incom
 assert.ok(Array.isArray(site.pastTournaments), 'Past tournaments must be an array');
 assert.equal(new Set(site.pastTournaments.map((tournament) => tournament.year)).size, site.pastTournaments.length, 'Past tournament years must be unique');
 const fall2026Photos = site.pastTournaments.find((tournament) => tournament.year === 2026)?.photos || [];
-assert.equal(fall2026Photos.length, 51, 'Expected 51 Fall 2026 gallery photos');
+assert.equal(fall2026Photos.length, 58, 'Expected 56 Fall 2026 gallery photos and 2 videos');
 const fall2026Names = fall2026Photos.map((photo) => photo.src.split('/').at(-1));
 assert.equal(new Set(fall2026Names).size, fall2026Names.length, 'Fall 2026 gallery photos must be unique');
-assert.deepEqual(fall2026Names.slice(0, 12), [
+assert.deepEqual(fall2026Names.slice(0, 20), [
   'IMG_20261101_003523.jpg', 'IMG_20261101_003531.jpg', 'IMG_20261031_090744.jpg',
   'IMG_20261031_090755.jpg', 'IMG_20261031_090812.jpg', 'IMG_20261031_090815.jpg',
-  'IMG_20261101_003540.jpg', 'IMG_20261101_003535.jpg', 'IMG_20261101_003516.jpg',
+  'IMG_20261102_220749.mp4', 'IMG_20261102_220701.jpg', 'IMG_20261101_003540.jpg',
+  'IMG_20261102_220714.jpg', 'IMG_20261102_221057.mp4', 'IMG_20261102_220758.jpg',
+  'IMG_20261101_003535.jpg', 'IMG_20261101_003516.jpg', 'IMG_20261102_220819.jpg',
   'IMG_20261031_103950.jpg', 'IMG_20261101_003552.jpg', 'IMG_20261101_003449.jpg',
-], 'The first 12 photos should follow the requested display order');
-assert.deepEqual(fall2026Names.slice(12), [...fall2026Names.slice(12)].sort(), 'Remaining photos should follow capture time order');
+  'IMG_20261031_124505.jpg', 'IMG_20261102_220726.jpg',
+], 'The new gallery files should appear at the requested positions');
+assert.deepEqual(fall2026Names.slice(20), [...fall2026Names.slice(20)].sort(), 'Remaining photos should follow capture time order');
 assert.deepEqual(await readdir(new URL('../dist/assets/tournaments/2026/photos/', import.meta.url)), [...fall2026Names].sort(), 'The published photo folder should contain exactly the listed images');
 for (const tournament of site.pastTournaments) {
   assert.ok(Number.isInteger(tournament.year) && tournament.title && tournament.summary, 'Past tournament details are incomplete');
@@ -69,9 +72,13 @@ for (const tournament of site.pastTournaments) {
     assert.equal(pdf.subarray(0, 4).toString(), '%PDF', `Invalid tournament PDF: ${problem.href}`);
   }
   for (const photo of tournament.photos) {
-    assert.match(photo.src, /^\/assets\/tournaments\/[^?#]+\.(?:jpe?g|png|webp)$/i, 'Use a local tournament photo');
+    assert.match(photo.src, photo.type === 'video' ? /^\/assets\/tournaments\/[^?#]+\.mp4$/i : /^\/assets\/tournaments\/[^?#]+\.(?:jpe?g|png|webp)$/i, 'Use a local tournament photo or video');
     assert.ok(typeof photo.alt === 'string' && photo.alt.trim(), 'Tournament photos need descriptive alt text');
     assert.ok((await stat(new URL(`../dist${photo.src}`, import.meta.url))).isFile(), `Missing tournament photo: ${photo.src}`);
+    if (photo.type === 'video') {
+      const header = await readFile(new URL(`../dist${photo.src}`, import.meta.url));
+      assert.equal(header.subarray(4, 8).toString(), 'ftyp', `Invalid MP4: ${photo.src}`);
+    }
   }
   for (const result of tournament.results) assert.ok(result.category && result.placement && result.participant, 'Tournament result is incomplete');
   for (const award of tournament.awards) assert.ok(award.title && award.recipient, 'Tournament award is incomplete');

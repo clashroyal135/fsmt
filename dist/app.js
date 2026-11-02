@@ -151,9 +151,10 @@ function archiveEmpty(title, description, symbol) {
 
 function renderPhotoSection(tournament) {
   const photos = element('section', undefined, tournament.problems?.length ? 'archive-section archive-photo-section' : 'archive-section');
-  photos.append(element('h3', tournament.problems?.length ? 'Photo gallery' : 'Photos'));
+  const videoCount = tournament.photos.filter((photo) => photo.type === 'video').length;
+  photos.append(element('h3', videoCount ? 'Photo and video gallery' : tournament.problems?.length ? 'Photo gallery' : 'Photos'));
   if (tournament.photos.length) {
-    photos.append(element('p', `${tournament.photos.length} photos from the tournament`, 'archive-photo-count'));
+    photos.append(element('p', videoCount ? `${tournament.photos.length - videoCount} photos and ${videoCount} videos from the tournament` : `${tournament.photos.length} photos from the tournament`, 'archive-photo-count'));
     if (tournament.photoNote) {
       const note = element('aside', undefined, 'archive-photo-note');
       note.append(element('strong', 'Help complete the gallery'));
@@ -167,6 +168,21 @@ function renderPhotoSection(tournament) {
     const gallery = element('div', undefined, tournament.problems?.length ? 'archive-gallery archive-gallery-2026' : 'archive-gallery');
     for (const photo of tournament.photos) {
       const figure = element('figure');
+      if (photo.type === 'video') {
+        const video = element('video');
+        video.controls = true;
+        video.preload = 'metadata';
+        video.playsInline = true;
+        video.setAttribute('aria-label', photo.alt);
+        const source = element('source');
+        source.src = photo.src;
+        source.type = 'video/mp4';
+        video.append(source);
+        figure.append(video);
+        if (photo.caption) figure.append(element('figcaption', photo.caption));
+        gallery.append(figure);
+        continue;
+      }
       const link = element('a');
       link.href = photo.src;
       link.target = '_blank';
@@ -297,7 +313,7 @@ function openInformation(kind) {
 }
 function route() {
   const fragment = location.hash.slice(1);
-  const awardAnchor = ['awards', 'team-awards', 'individual-awards'].includes(fragment) ? fragment : null;
+  const awardAnchor = ['awards', 'team-awards', 'individual-awards', 'countdown-awards'].includes(fragment) ? fragment : null;
   const requested = awardAnchor ? 'home' : fragment || 'home';
   if (['privacy', 'organizers'].includes(requested)) { openInformation(requested); return; }
   if (!routes.includes(requested)) { location.hash = 'home'; return; }

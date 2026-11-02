@@ -115,7 +115,7 @@ main { flex: 1 0 auto; }
 @media (max-width: 900px) {
   .header-inner { position: relative; }
   .menu-toggle { display: block; margin-left: auto; }
-  .header-inner nav { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 3; border: 0; }
+  .header-inner nav { display: none; position: absolute; top: 100%; left: auto; right: clamp(18px, 3vw, 48px); width: min(280px, calc(100vw - 32px)); z-index: 3; border: 0; }
   .header-inner nav.open { display: flex; flex-direction: column; align-items: stretch; gap: 3px; }
   #main-nav { margin-left: 0; padding: 14px 16px; gap: 3px; background: #123b68; box-shadow: 0 8px 20px #17243424; }
   #main-nav > a:not(.button) { padding: 10px 12px; border-radius: 4px; font-size: 17px; }
@@ -125,6 +125,7 @@ main { flex: 1 0 auto; }
 }
 @media (max-width: 600px) {
   .header-inner.wrap { min-height: 76px; padding-inline: 16px; }
+  .header-inner nav { right: 16px; }
   .brand-logo { flex-basis: 50px; width: 50px; height: 50px; }
   .header-brand-title { font-size: clamp(13px, 3.6vw, 17px); white-space: normal; }
   .home-hero .hero { min-height: calc(100svh - 76px); padding: 62px 0 35px; }
