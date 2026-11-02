@@ -149,6 +149,40 @@ function archiveEmpty(title, description, symbol) {
   return placeholder;
 }
 
+let activeGallery = [];
+let activeGalleryIndex = 0;
+let galleryTrigger;
+
+function showGalleryItem(index) {
+  const previousVideo = $('#gallery-media video');
+  if (previousVideo) previousVideo.pause();
+  activeGalleryIndex = (index + activeGallery.length) % activeGallery.length;
+  const item = activeGallery[activeGalleryIndex];
+  let media;
+  if (item.type === 'video') {
+    media = element('video');
+    media.src = item.src;
+    media.controls = true;
+    media.preload = 'metadata';
+    media.playsInline = true;
+    media.setAttribute('aria-label', item.alt);
+  } else {
+    media = element('img');
+    media.src = item.src;
+    media.alt = item.alt;
+  }
+  $('#gallery-media').replaceChildren(media);
+  $('#gallery-position').textContent = `${activeGalleryIndex + 1} of ${activeGallery.length}`;
+  $('#gallery-caption').textContent = item.caption || item.alt;
+}
+
+function openGallery(items, index, trigger) {
+  activeGallery = items;
+  galleryTrigger = trigger;
+  showGalleryItem(index);
+  $('#gallery-dialog').showModal();
+}
+
 function renderPhotoSection(tournament) {
   const photos = element('section', undefined, tournament.problems?.length ? 'archive-section archive-photo-section' : 'archive-section');
   const videoCount = tournament.photos.filter((photo) => photo.type === 'video').length;
@@ -166,38 +200,35 @@ function renderPhotoSection(tournament) {
       photos.append(note);
     }
     const gallery = element('div', undefined, tournament.problems?.length ? 'archive-gallery archive-gallery-2026' : 'archive-gallery');
-    for (const photo of tournament.photos) {
+    tournament.photos.forEach((photo, index) => {
       const figure = element('figure');
+      const button = element('button', undefined, 'gallery-thumbnail');
+      button.type = 'button';
+      button.setAttribute('aria-label', `Open ${photo.type === 'video' ? 'video' : 'photo'} ${index + 1} of ${tournament.photos.length}: ${photo.alt}`);
+      button.addEventListener('click', () => openGallery(tournament.photos, index, button));
       if (photo.type === 'video') {
         const video = element('video');
-        video.controls = true;
         video.preload = 'metadata';
         video.playsInline = true;
-        video.setAttribute('aria-label', photo.alt);
+        video.muted = true;
+        video.setAttribute('aria-hidden', 'true');
         const source = element('source');
         source.src = photo.src;
         source.type = 'video/mp4';
         video.append(source);
-        figure.append(video);
-        if (photo.caption) figure.append(element('figcaption', photo.caption));
-        gallery.append(figure);
-        continue;
+        button.append(video, element('span', '▶', 'gallery-play-icon'));
+      } else {
+        const image = element('img');
+        image.src = photo.src;
+        image.alt = '';
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        button.append(image);
       }
-      const link = element('a');
-      link.href = photo.src;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.setAttribute('aria-label', `View full photo: ${photo.alt} (opens in a new tab)`);
-      const image = element('img');
-      image.src = photo.src;
-      image.alt = photo.alt;
-      image.loading = 'lazy';
-      image.decoding = 'async';
-      link.append(image);
-      figure.append(link);
+      figure.append(button);
       if (photo.caption) figure.append(element('figcaption', photo.caption));
       gallery.append(figure);
-    }
+    });
     photos.append(gallery);
   } else {
     photos.append(archiveEmpty('Coming soon', '', '▧'));
@@ -353,6 +384,23 @@ $('#menu-toggle').addEventListener('click', () => {
 $('#scroll-cue').addEventListener('click', () => $('#awards').scrollIntoView({ behavior: 'smooth', block: 'start' }));
 $('#close-article').addEventListener('click', () => $('#article-dialog').close());
 $('#close-info').addEventListener('click', () => $('#info-dialog').close());
+$('#close-gallery').addEventListener('click', () => $('#gallery-dialog').close());
+$('#previous-gallery').addEventListener('click', () => showGalleryItem(activeGalleryIndex - 1));
+$('#next-gallery').addEventListener('click', () => showGalleryItem(activeGalleryIndex + 1));
+$('#gallery-dialog').addEventListener('keydown', (event) => {
+  if (event.target instanceof HTMLMediaElement) return;
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.preventDefault();
+    showGalleryItem(activeGalleryIndex + (event.key === 'ArrowRight' ? 1 : -1));
+  }
+});
+$('#gallery-dialog').addEventListener('click', (event) => { if (event.target === $('#gallery-dialog')) $('#gallery-dialog').close(); });
+$('#gallery-dialog').addEventListener('close', () => {
+  const video = $('#gallery-media video');
+  if (video) video.pause();
+  $('#gallery-media').replaceChildren();
+  galleryTrigger?.focus();
+});
 $('#info-dialog').addEventListener('close', () => { if (['privacy', 'organizers'].includes(location.hash.slice(1))) location.hash = currentRoute; });
 window.addEventListener('hashchange', route);
 route();
